@@ -1,4 +1,4 @@
-import { ICustomer } from "../../../types/index.ts";
+import { ICustomer } from "../../types/index.ts";
 
 export class Customer {
   private customerInfo: ICustomer = {
@@ -8,11 +8,19 @@ export class Customer {
     address: null,
   };
 
-  setCustomerInfo(customerInfo: ICustomer): void {
-    this.customerInfo.payment = customerInfo.payment;
-    this.customerInfo.email = customerInfo.email;
-    this.customerInfo.address = customerInfo.address;
-    this.customerInfo.phone = customerInfo.phone;
+  setCustomerInfo(customerInfo: Partial<ICustomer>): void {
+    if (customerInfo.payment !== undefined) {
+      this.customerInfo.payment = customerInfo.payment;
+    }
+    if (customerInfo.email !== undefined) {
+      this.customerInfo.email = customerInfo.email;
+    }
+    if (customerInfo.address !== undefined) {
+      this.customerInfo.address = customerInfo.address;
+    }
+    if (customerInfo.phone !== undefined) {
+      this.customerInfo.phone = customerInfo.phone;
+    }
   }
 
   getCustomerInfo(): ICustomer {
@@ -20,7 +28,6 @@ export class Customer {
   }
 
   eraseCustomerInfo(): void {
-    //очистка данных покупателя;
     this.customerInfo = {
       payment: null,
       email: null,
@@ -30,7 +37,6 @@ export class Customer {
   }
 
   isCorrect(): { [key in keyof ICustomer]?: string } {
-    //валидация данных.
     let errors: { [key in keyof ICustomer]?: string } = {};
     if (!this.customerInfo.payment) {
       errors.payment = "Не выбран тип оплаты";

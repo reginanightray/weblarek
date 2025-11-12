@@ -1,12 +1,13 @@
 import "./scss/styles.scss";
-import { Cart } from "./components/base/Models/Cart";
-import { Customer } from "./components/base/Models/Customer";
-import { Product } from "./components/base/Models/Product";
+import { Cart } from "./components/Models/Cart";
+import { Customer } from "./components/Models/Customer";
+import { Product } from "./components/Models/Product";
 import { apiProducts } from "../src/utils/data";
 import { ICustomer } from "./types";
-import { ApiService } from "./components/base/Models/ApiService";
+import { ApiService } from "./components/Models/ApiService";
 import { API_URL } from "./utils/constants";
 import { Api } from "./components/base/Api";
+import { IOrder } from "./types";
 
 const newProduct = new Product();
 const newCart = new Cart();
@@ -37,7 +38,7 @@ console.log("Из корзины удален", removedItem);
 newCart.removeFromCart(removedItem);
 console.log("Обновленная корзина", newCart.getItems());
 console.log("Полная стоимость заказа: ", newCart.getTotalCost());
-console.log("Всего в корзине: ", newCart.getAmountofItems());
+console.log("Всего в корзине: ", newCart.getAmountOfItems());
 const availableItem = apiProducts.items[0].id;
 console.log(
   "Данный товар в корзине? ",
@@ -61,15 +62,20 @@ const firstCustomer: ICustomer = {
 };
 
 const secondCustomer: ICustomer = {
+  payment: null,
   email: "lady@mail.ru",
   phone: "88005553535",
+  address: null,
 };
 
 newCustomer.setCustomerInfo(firstCustomer);
 console.log("Новый покупатель", newCustomer.getCustomerInfo());
+console.log("Данные нового покупателя валидны?", newCustomer.isCorrect());
 newCustomer.setCustomerInfo(secondCustomer);
 console.log("Второй покупатель", newCustomer.getCustomerInfo());
-console.log("Данные валидны?", newCustomer.isCorrect());
+console.log("Данные второго покупателя валидны?", newCustomer.isCorrect());
+newCustomer.setCustomerInfo({ payment: "cash", address: "Мирный поселок" });
+console.log("Данные второго покупателя валидны?", newCustomer.isCorrect());
 newCustomer.eraseCustomerInfo();
 console.log("Удаляем данные пользователя");
 console.log(
@@ -81,6 +87,17 @@ console.log(
 
 const newApi = new Api(API_URL);
 const newApiService = new ApiService(newApi);
-let order: Object = { id: "28c57cb4-3002-4445-8aa1-2a06a5055ae5", total: 2200 };
+let firstOrder: IOrder = {
+  payment: "online",
+  email: "test@test.ru",
+  phone: "+71234567890",
+  address: "Spb Vosstania 1",
+  total: 2200,
+  items: [
+    "854cef69-976d-4c2a-a18c-2aa45046c390",
+    "c101ab44-ed99-4a54-990d-47aa2bb4e7d9",
+  ],
+};
+
 console.log(newApiService.get());
-console.log(newApiService.post(order));
+console.log(newApiService.post(firstOrder));

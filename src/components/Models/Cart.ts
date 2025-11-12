@@ -1,4 +1,4 @@
-import { IProduct } from "../../../types/index.ts";
+import { IProduct } from "../../types/index.ts";
 
 export class Cart {
   private addedProduct: IProduct[] = [];
@@ -29,7 +29,7 @@ export class Cart {
     );
   }
 
-  getAmountofItems(): number {
+  getAmountOfItems(): number {
     return this.addedProduct.length;
   }
 
