@@ -99,5 +99,5 @@ let firstOrder: IOrder = {
   ],
 };
 
-console.log(newApiService.get());
-console.log(newApiService.post(firstOrder));
+console.log(newApiService.getProducts());
+console.log(newApiService.postOrder(firstOrder).catch(err => console.log(err)));

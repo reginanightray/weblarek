@@ -31,3 +31,8 @@ export interface IOrder extends ICustomer {
   total: number;
   items: string[];
 }
+
+export interface iOrderResponse {
+  id: string;
+  total: number;
+}

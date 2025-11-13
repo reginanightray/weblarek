@@ -1,4 +1,4 @@
-import { IApi, IProduct, IOrder } from "../../types/index.ts";
+import { IApi, IProduct, IOrder, iOrderResponse } from "../../types/index.ts";
 
 export class ApiService {
   private api: IApi;
@@ -7,7 +7,7 @@ export class ApiService {
     this.api = Api;
   }
 
-  async get(): Promise<IProduct[]> {
+  async getProducts(): Promise<IProduct[]> {
     try {
       const data = await this.api.get<{ items: IProduct[] }>("/product");
       return data.items;
@@ -17,13 +17,8 @@ export class ApiService {
     }
   }
 
-  async post(order: Object): Promise<IOrder> {
-    try {
-      return await this.api.post<IOrder>("/order", order);
-    } catch (error) {
-      console.log("Ошибка отправки данных на сервер");
-      return await this.api.post<IOrder>("/order", order);
-    }
+  postOrder(order: IOrder): Promise<iOrderResponse> {
+      return this.api.post<iOrderResponse>("/order", order);
   }
 }
 
