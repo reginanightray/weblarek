@@ -177,4 +177,133 @@ private customerInfo: ICustomer = {
 Принимаtn в конструктор объект, соответствующий интерфейсу IApi и сохраняет его в поле Api;  
 Методы класса:  
 `async getProducts() : Promise<IProduct[]>` выполняет ассинхронный запрос на сервер и получает массив товаров. Предусмотрена обработка ошибок с возвратом пустого массива.    
-`postOrder(order: IOrder): Promise<iOrderResponse>` отправляет на сервер данные о заказе (объект order, соответсвующий интерфейсу IOrder), возвращает ответ сервера в виде объекта IOrderResponse
+`postOrder(order: IOrder): Promise<iOrderResponse>` отправляет на сервер данные о заказе (объект order, соответсвующий интерфейсу IOrder), возвращает ответ сервера в виде объекта IOrderResponse  
+  
+  
+### Слой представления  
+
+
+**Класс Header**  
+Назначение класса: шапка страницы. Содержит в себе кнопку корзины и счетчик товаров.  
+Конструктор класса: принимает в себя контейнер и брокер событий.   
+Поля класса: сounterElement: HTMLElement, basketButton: HTMLElement;  
+Методы класса:  
+`set counter(value: number)` принимает числовое значение и записывает его. 
+  
+  
+**Класс Gallery**  
+Назначение класса: окно вывода карточек товаров  
+Конструктор класса: принимает в себя контейнер и брокер событий.     
+Поля класса: catalogElement: HTMLELement  
+Методы класса:  
+`set catalog(items: HTMLElement)` принимает массив карточек.  
+  
+
+**Класс Modal**  
+Назначение класса: модальное окно  
+Конструктор класса: принимает в себя контейнер и брокер событий.     
+Поля класса: modalElement: HTMLElement, closeButton: HTMLElement  
+Методы класса:  
+`set modalContent(content: HTMLElement)` принимает html-елемент с содержимым модального окна.  
+
+
+**CardDefault**  
+Назначение класса: базовая карточка  
+Конструктор класса: не принимает никаких элементов.     
+Поля класса:   
+id: string  
+description: string  
+image: string  
+title: string  
+category: string  
+price: number    
+Методы класса:  
+`set cardContent(cardData: []): void {}` принимает в себя массив элементов  
+  
+
+**CatalogCart**  
+Дочерний класс от DefaultCard  
+Назначение класса: карточка, отображаемая в каталоге на главной странице  
+Конструктор класса:  
+Поля класса: id: string
+image: string
+title: string
+category: string
+price: number  
+Методы класса:  
+`showPreview(id: string): void {}` при клике на карточку открывается модальноое окно с подробной карточкой  
+  
+
+**Preview Card**  
+Дочерний класс от DefaultCard  
+Назначение класса: подробная карточчка  
+Конструктор класса:  
+Поля класса:   
+id: string
+description: string  
+image: string  
+title: string  
+category: string  
+price: number 
+addToCartButton: HTMLElement  
+Методы класса:  
+`addToCart(id : string)` при клике на карточку открывается модальноое окно с подробной карточкой  
+  
+
+**СartCard**
+Дочерний класс от DefaultCard  
+Назначение класса: карточка товара, отображающаяся в корзине  
+Конструктор класса:  
+Поля класса:   
+title: string  
+price: number 
+index: number
+id: string
+removeFromCartButton: HTMLElement  
+Методы класса:  
+`removeFromCart(id : string)` удаление карточки по клику  
+  
+
+**Cart**
+Назначение класса: корзина с добавленными товарами (или пустая)  
+Конструктор класса:  
+Поля класса:   
+isEmpty: boolean  
+total: number  
+toOrderButton: HTMLElement    
+Методы класса:  
+`toOrder() {}` кнопка заказ товара  
+  
+
+**Confirmation**
+Назначение класса: корзина с добавленными товарами (или пустая)  
+Конструктор класса:  
+Поля класса: 
+total: number  
+continueShoppingButton: HTMLElement      
+Методы класса:  
+`closeModal()': void {}` кнопка закрытия модального окна  
+
+
+**FormBase**  
+Назначение класса: родительский класс формы  
+Конструктор класса:  
+Поля класса: 
+nextButton: HTMLElement      
+Методы класса:  
+`sendForm() {}` кнопка отправки формы  
+`isEmpty() {}` проверка на заполненноость формы  
+  
+  
+**paymentAndDeliveryForm**  
+Назначение класса: форма для выбора формы оплаты и адреса доставки    
+Конструктор класса:    
+Поля формы:  
+cashButton: HTMLElement  
+onlineButton: HTMLElement  
+  
+**СontanctsForm**  
+Назначение класса: форма ввода контактных данных     
+Конструктор класса:
+ 
+  

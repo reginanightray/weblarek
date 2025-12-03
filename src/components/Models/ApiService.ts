@@ -1,4 +1,4 @@
-import { IApi, IProduct, IOrder, iOrderResponse } from "../../types/index.ts";
+import { IApi, IProduct, IOrder, IOrderResponse } from "../../types/index.ts";
 
 export class ApiService {
   private api: IApi;
@@ -17,8 +17,8 @@ export class ApiService {
     }
   }
 
-  postOrder(order: IOrder): Promise<iOrderResponse> {
-      return this.api.post<iOrderResponse>("/order", order);
+  postOrder(order: IOrder): Promise<IOrderResponse> {
+      return this.api.post<IOrderResponse>("/order", order);
   }
 }
 

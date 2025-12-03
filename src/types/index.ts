@@ -1,6 +1,6 @@
 export type ApiPostMethods = "POST" | "PUT" | "DELETE";
 
-export type TPayment = "cash" | "online";
+export type TPayment = "cash" | "card";
 
 export interface IApi {
   get<T extends object>(uri: string): Promise<T>;
@@ -32,7 +32,7 @@ export interface IOrder extends ICustomer {
   items: string[];
 }
 
-export interface iOrderResponse {
+export interface IOrderResponse {
   id: string;
   total: number;
 }
