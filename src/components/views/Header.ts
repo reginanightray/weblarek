@@ -1,6 +1,7 @@
 import { ensureElement } from "../../utils/utils";
 import { Component } from "../base/Component";
 import { IEvents } from "../base/Events";
+import { actions } from "../../utils/actions";
 
 interface IHeader {
   counter: number;
@@ -16,7 +17,7 @@ export class Header extends Component<IHeader> {
     this.basketButton = ensureElement<HTMLElement>('.header__basket', this.container);
 
     this.basketButton.addEventListener('click', () => {
-      this.events.emit('basket:open');
+      this.events.emit(actions.CART_OPEN);
       console.log('basket is opened');
     });
   }

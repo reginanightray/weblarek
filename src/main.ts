@@ -15,49 +15,124 @@ import { CardCatalog } from "./components/views/CardCatalog";
 import { IEvents } from "./components/base/Events";
 import { Modal } from "./components/views/Modal";
 import { cloneTemplate, ensureElement } from "./utils/utils";
-import { Cart as CartLayout} from "./components/views/Cart"
+import { Cart as CartLayout } from "./components/views/Cart";
 import { CardCart } from "./components/views/CardCart";
 import { Confirmation } from "./components/views/Confirmation";
 import { CardPreview } from "./components/views/CardPreview";
 import { FormOrder } from "./components/views/FormOrder";
 import { FormContacts } from "./components/views/FormContacts";
+import { actions } from "./utils/actions";
+import { CDN_URL } from "./utils/constants";
 
 //инициализация серверной части
 
 const newApi = new Api(API_URL);
 const newApiService = new ApiService(newApi);
 
+//брокер событий
 const events = new EventEmitter();
 
-//инициализация списка товаров
-const data = apiProducts;
-const items = data.items;
+//модели данных
+const productModel = new Product(events);
+const customerModel = new Customer();
+const cartModel = new Cart();
 
-//проверка классов представления
-const headerElement = document.querySelector('.header') as HTMLElement;
-const header = new Header(events, headerElement !);
-header.counter = 5;
+//вызов данных с сервера
+newApiService
+  .getProducts()
+  .then((products) => {
+    productModel.setItem(products);
+  })
+  .catch((error) =>
+    console.error("Ошибка при загрузке товаров из каталога API:", error)
+  );
 
-const galleryElement = document.querySelector('.gallery') as HTMLElement;
-const gallery = new Gallery(events, galleryElement !);
+//шапка
+const headerElement = ensureElement(".header");
+const header = new Header(events, headerElement);
 
-const modalElement = document.querySelector(".modal") as HTMLElement;
-const modal = new Modal(events, modalElement !);
+//галерея с карточками товаров
+const galleryElement = ensureElement(".gallery");
+const gallery = new Gallery(events, galleryElement);
 
+//модальное окно
+const modalElement = ensureElement(".modal");
+const modal = new Modal(events, modalElement);
+events.on(actions.CART_CLOSE, () => {
+  modal.close();
+})
+
+//карточки товаров
+events.on(actions.PRODUCT_RECIEVED, () => {
+  productModel.getItem().map((item) => {
+    const catalogCartView = cloneTemplate("#card-catalog");
+    galleryElement.appendChild(catalogCartView);
+    const catalogCard = new CardCatalog(events, catalogCartView, item.id);
+    catalogCard.render(item);
+    return catalogCard;
+  });
+});
+
+//корзинка
+const cartElement = cloneTemplate("#basket");
+modal.content = cartElement; 
+const cart = new CartLayout(events, cartElement);
+
+events.on(actions.CART_OPEN, () => {
+  modal.open(cartElement);
+})
+
+//подробные карточки
+const previewCardElement = cloneTemplate("#card-preview");
+modal.content = previewCardElement;
+
+//открытие подробной карточки
+events.on<{id: string}>(actions.CARD_CATALOG_CLICKED, (data) => {
+  const id = data.id;
+  const dataForPreview = productModel.getItemByID(id);
+  if (dataForPreview) {
+    const cardData = {
+    ...dataForPreview
+  };
+  const previewCard = new CardPreview(events, previewCardElement)
+  previewCard.render(cardData);
+  };
+  modal.open(previewCardElement);
+})
+
+//добавляем карточку в корзинку
+
+
+/*
+//карточки товаров 
+//рендерим карточки
+const catalogCardList = items.map(item => {
+  const catalogCartView = cloneTemplate("#card-catalog");
+  galleryElement.appendChild(catalogCartView);
+  const catalogCard = new CardCatalog(events, catalogCartView);
+  catalogCard.render(item);
+  return catalogCard;
+});
+console.log(catalogCardList)
+
+
+
+//корзина
+
+//подтверждение заказа
 const confirmationElement = cloneTemplate("#success");
-console.log(confirmationElement);
 modal.content = confirmationElement; 
 
 const confirmation = new Confirmation(events, confirmationElement);
 confirmation.totalCost = 1000000;
 
+//подробная карточка
 const previewCardElement = cloneTemplate("#card-preview");
-
 modal.content = previewCardElement;
-
 const previewCard = new CardPreview(events, previewCardElement);
 previewCard.render(items[1]);
 
+//Первая форма оформления заказа
 const formOrderElement = cloneTemplate("#order");
 modal.content = formOrderElement
 const formOrder = new FormOrder(events, formOrderElement);
@@ -66,10 +141,12 @@ formOrder.address = "улицаПушкина" ;
 formOrder.isButtonDisabled = false;
 formOrder.payment = "card";
 
+//Вторая форма оформления заказа (ввода контактных данных)
 const formContactsElement = cloneTemplate("#contacts");
 modal.content = formContactsElement;
 const formContacts = new FormContacts(events, formContactsElement);
-
 formContacts.email = "pushkin@mail.ru";
 formContacts.phone = "79991307877"
 formContacts.isButtonDisabled = false;
+
+modal.close();*/

@@ -9,12 +9,10 @@ interface IBasket {
 }
 
 export class Cart extends Component<IBasket> {
-  cartElement: HTMLElement;
   totalElement: HTMLElement;
   toOrderButton: HTMLButtonElement;
   constructor(private events: IEvents, container: HTMLElement) {
     super(container);
-    this.cartElement = ensureElement(".basket", this.container);
     this.totalElement = ensureElement(".basket__price", this.container);
     this.toOrderButton = ensureElement<HTMLButtonElement>(".basket__button", this.container);
     this.toOrderButton.disabled = true
