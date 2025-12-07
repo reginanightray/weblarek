@@ -37,3 +37,6 @@ export interface IOrderResponse {
   total: number;
 }
 
+export interface ICardActions {
+  onClick(): void;
+} 

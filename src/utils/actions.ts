@@ -1,6 +1,8 @@
 export enum actions {
   PRODUCT_RECIEVED = "products:recieved",
     CART_OPEN = "cart:open",
-    CART_CLOSE = "modal:close",
-    CARD_CATALOG_CLICKED = "card:clicked"
+    MODAL_CLOSE = "modal:close",
+    CARD_OPEN = "card:open",
+    PRODUCT_CLICKED = "product:clicked",
+    CARD_BUTTON_CLICKED = "cardButton: clicked"
 }

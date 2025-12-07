@@ -14,7 +14,7 @@ export class Modal extends Component<IProduct> {
     this.modalContent = ensureElement<HTMLElement>(".modal__content", this.container);
     this.closeButton = ensureElement<HTMLElement>(".modal__close", this.container);
     this.closeButton.addEventListener("click", () => {
-      this.events.emit(actions.CART_CLOSE, this.container);
+      this.events.emit(actions.MODAL_CLOSE, this.container);
       console.log("Close button clicked");
     })
   }

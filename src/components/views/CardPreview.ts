@@ -2,18 +2,19 @@ import { ensureElement } from "../../utils/utils";
 import { IEvents } from "../base/Events";
 import { CardCatalog } from "./CardCatalog";
 import { IProduct } from "../../types";
+import { actions } from "../../utils/actions";
+
 
 export class CardPreview extends CardCatalog {
   descriptionElement: HTMLElement;
   cardButton: HTMLButtonElement;
-  constructor(events: IEvents, container: HTMLElement) {
-    super(events, container);
+  constructor(protected events: IEvents, container: HTMLElement) {
+    super(container);
     this.descriptionElement = ensureElement(".card__text", this.container);
     this.cardButton = ensureElement<HTMLButtonElement>(".card__button", this.container);
     this.cardButton.addEventListener("click", () => {
-      this.events.emit("button: clicked");
-      console.log("button: clicked")
-    })
+          this.events.emit(actions.CARD_BUTTON_CLICKED);
+        })
   }
 
   set description(value: string) {

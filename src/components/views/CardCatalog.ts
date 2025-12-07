@@ -1,23 +1,22 @@
 import { CardDefault } from "./CardDefault";
-import { IEvents } from "../base/Events"; 
 import { IProduct } from "../../types";
 import { ensureElement } from "../../utils/utils";
 import { categoryMap } from "../../utils/constants";
 import { CDN_URL } from "../../utils/constants";
-import { actions } from "../../utils/actions";
+import { ICardActions } from "../../types";
 
 type CategoryKey = keyof typeof categoryMap;
 
 export class CardCatalog extends CardDefault {
   private image: HTMLImageElement;
   private category: HTMLElement;
-  constructor(protected events: IEvents, container: HTMLElement, id: string) {
+  constructor(protected container: HTMLElement, actions?: ICardActions) {
     super(container);
     this.image = ensureElement<HTMLImageElement>('.card__image', this.container);
     this.category = ensureElement('.card__category', this.container);
-    this.container.addEventListener("click", () => {
-      this.events.emit<{id: string}>(actions.CARD_CATALOG_CLICKED, {id});
-    })
+    if (actions?.onClick) {
+      this.container.addEventListener('click', actions.onClick);
+    }
   }
 
   set categoryValue(value: string) {
