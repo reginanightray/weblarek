@@ -4,7 +4,7 @@ import { IEvents } from "../base/Events";
 import { IProduct } from "../../types";
 
 interface IGallery {
-  cardList: IProduct[]
+  cardList: IProduct[];
 }
 
 export class Gallery extends Component<IGallery> {

@@ -6,8 +6,8 @@ export class Cart {
   private addedProduct: IProduct[] = [];
 
   constructor(private events: IEvents) {
-      this.events = events;
-    }
+    this.events = events;
+  }
 
   getItems(): IProduct[] {
     return this.addedProduct;
@@ -15,18 +15,19 @@ export class Cart {
 
   addToCart(addedProduct: IProduct): void {
     this.addedProduct.push(addedProduct);
-    this.events.emit(actions.PRODUCT_CLICKED);
+    this.events.emit(actions.CART_UPDATE);
   }
 
   removeFromCart(productID: string): void {
     this.addedProduct = this.addedProduct.filter(
       (product) => product.id !== productID
     );
-    this.events.emit(actions.PRODUCT_CLICKED);
+    this.events.emit(actions.CART_UPDATE);
   }
 
   removeAllItems(): void {
     this.addedProduct = [];
+    this.events.emit(actions.CART_UPDATE);
   }
 
   getTotalCost(): number {

@@ -1,18 +1,25 @@
 import { CardDefault } from "./CardDefault";
-import { IEvents } from "../base/Events"; 
 import { ensureElement } from "../../utils/utils";
+import { ICardActions } from "../../types";
 
 export class CardCart extends CardDefault {
   indexElement: HTMLElement;
   deleteButton: HTMLButtonElement;
 
-  constructor(protected events: IEvents, container: HTMLElement) {
+  constructor(container: HTMLElement, events?: ICardActions) {
     super(container);
-    this.indexElement = ensureElement<HTMLElement>(".basket__item-index", this.container);
-    this.deleteButton = ensureElement<HTMLButtonElement>(".basket__item-delete", this.container);
+    this.indexElement = ensureElement<HTMLElement>(
+      ".basket__item-index",
+      this.container
+    );
+    this.deleteButton = ensureElement<HTMLButtonElement>(
+      ".basket__item-delete",
+      this.container
+    );
     this.deleteButton.addEventListener("click", () => {
-      this.events.emit("item: delete");
-      console.log('item delete');
+      if (events?.onClick) {
+        this.container.addEventListener("click", events.onClick);
+      }
     });
   }
 

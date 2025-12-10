@@ -5,10 +5,13 @@ import { ensureElement } from "../../utils/utils";
 export abstract class FormDefault extends Component<ICustomer> {
   submitButton: HTMLButtonElement;
   errorsElement: HTMLElement;
-  constructor(container: HTMLElement){
+  constructor(container: HTMLElement) {
     super(container);
-    this.submitButton = ensureElement<HTMLButtonElement>(".button[type='submit']", this.container);
-    this.errorsElement = ensureElement(".form__errors");
+    this.submitButton = ensureElement<HTMLButtonElement>(
+      "button[type='submit']",
+      this.container
+    );
+    this.errorsElement = ensureElement(".form__errors", this.container);
   }
   set isButtonDisabled(value: boolean) {
     this.submitButton.disabled = value;

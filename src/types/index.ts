@@ -39,4 +39,4 @@ export interface IOrderResponse {
 
 export interface ICardActions {
   onClick(): void;
-} 
+}

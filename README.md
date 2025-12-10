@@ -188,7 +188,7 @@ private customerInfo: ICustomer = {
 Конструктор класса: принимает в себя контейнер и брокер событий.   
 Поля класса: сounterElement: HTMLElement, basketButton: HTMLElement;  
 Методы класса:  
-`set counter(value: number)` принимает числовое значение и записывает его. 
+`set counter(value: number)` принимает числовое значение счетчика товаров в корзине и записывает его. 
   
   
 **Класс Gallery**  
@@ -196,114 +196,140 @@ private customerInfo: ICustomer = {
 Конструктор класса: принимает в себя контейнер и брокер событий.     
 Поля класса: catalogElement: HTMLELement  
 Методы класса:  
-`set catalog(items: HTMLElement)` принимает массив карточек.  
+`set catalog(items: HTMLElement)` принимает массив карточек, отвечает за выведение полученного массива на страницу.
   
 
 **Класс Modal**  
 Назначение класса: модальное окно  
 Конструктор класса: принимает в себя контейнер и брокер событий.     
-Поля класса: modalElement: HTMLElement, closeButton: HTMLElement  
+Поля класса: modalElement: HTMLElement, closeButton: HTMLButtonElement  
 Методы класса:  
-`set modalContent(content: HTMLElement)` принимает html-елемент с содержимым модального окна.  
+`set modalContent(content: HTMLElement)` принимает html-элемент с содержимым модального окна.  
+`open(content: HTMLElement)` открывает модальное окно с переданным содержимым.
+`close()` закрывает модальное окно
 
 
 **CardDefault**  
+Абстрактный класс
 Назначение класса: базовая карточка  
 Конструктор класса: не принимает никаких элементов.     
 Поля класса:   
-id: string  
-description: string  
-image: string  
-title: string  
-category: string  
-price: number    
+title: HTMLElenent   
+price: HTMLElenent    
 Методы класса:  
-`set cardContent(cardData: []): void {}` принимает в себя массив элементов  
+`set cardContent(cardData: []): void {}` принимает в себя массив элементов 
+ `set TitleValue(value: string)` присваивает название  
+ `set PriceValue(value: number | null)`присваивает цену  
+
   
 
 **CatalogCart**  
 Дочерний класс от DefaultCard  
 Назначение класса: карточка, отображаемая в каталоге на главной странице  
-Конструктор класса:  
-Поля класса: id: string
-image: string
-title: string
-category: string
-price: number  
+Конструктор класса: принимает в себя контейнер и брокер событий
+Поля класса: image: HTMLImageElement; category: HTMLElement;  
 Методы класса:  
 `showPreview(id: string): void {}` при клике на карточку открывается модальноое окно с подробной карточкой  
+`set categoryValue(value: string)` назначает категорию карточки  
+`set imageSrc(src: string) ` назначает изображение карточки  
   
 
 **Preview Card**  
 Дочерний класс от DefaultCard  
 Назначение класса: подробная карточчка  
-Конструктор класса:  
+Конструктор класса: принимает в себя контейнер и брокер событий
 Поля класса:   
-id: string
-description: string  
-image: string  
-title: string  
-category: string  
-price: number 
-addToCartButton: HTMLElement  
-Методы класса:  
-`addToCart(id : string)` при клике на карточку открывается модальноое окно с подробной карточкой  
+descriptionElement: HTMLElement; cardButton: HTMLButtonElement;   
+Методы класса:
+`set description(value: string)` назначает описание карточки    
+`set buttonText(value: string)` назначает текст кнопки  
+`set isButtonDisabled(value: boolean)` устанавливает значение кнопки активна/неактивна    
   
 
 **СartCard**
 Дочерний класс от DefaultCard  
 Назначение класса: карточка товара, отображающаяся в корзине  
-Конструктор класса:  
+Конструктор класса: принимает в себя контейнер и брокер событий 
 Поля класса:   
-title: string  
-price: number 
-index: number
-id: string
-removeFromCartButton: HTMLElement  
+indexElement: HTMLElement;  
+deleteButton: HTMLButtonElement;  
 Методы класса:  
-`removeFromCart(id : string)` удаление карточки по клику  
+`set index(value: number)` назначает порядковый номер карточки в корзине   
   
 
 **Cart**
 Назначение класса: корзина с добавленными товарами (или пустая)  
-Конструктор класса:  
+Конструктор класса: принимает в себя контейнер и брокер событий  
 Поля класса:   
-isEmpty: boolean  
-total: number  
-toOrderButton: HTMLElement    
+totalElement: HTMLElement;  
+toOrderButton: HTMLButtonElement;  
+cartList: HTMLElement;    
 Методы класса:  
-`toOrder() {}` кнопка заказ товара  
-  
+`set isToOrderButtonDisabled(value: boolean)` назначает состояние кнопки - активна/неактивна  
+ `set listItems(list: HTMLElement[])` выводит список карточек на основании масива с карточками
+ `set totalPrice(price: number)` назначает итоговую стоимость 
 
 **Confirmation**
-Назначение класса: корзина с добавленными товарами (или пустая)  
-Конструктор класса:  
+Назначение класса: окно подтверждения успешного заказа 
+Конструктор класса: принимает в себя контейнер и брокер событий 
 Поля класса: 
-total: number  
-continueShoppingButton: HTMLElement      
+totalCostElement: HTMLElement;  
+closeButton: HTMLButtonElement;        
 Методы класса:  
-`closeModal()': void {}` кнопка закрытия модального окна  
+`set total(value: number)` - назначает сумму заказа
 
 
-**FormBase**  
-Назначение класса: родительский класс формы  
-Конструктор класса:  
+**FormDefault**  
+Назначение класса: абстрактный родительский класс формы  
+Конструктор класса: принимает в себя контейнер
 Поля класса: 
-nextButton: HTMLElement      
+submitButton: HTMLButtonElement;
+errorsElement: HTMLElement;   
 Методы класса:  
-`sendForm() {}` кнопка отправки формы  
-`isEmpty() {}` проверка на заполненноость формы  
+`set isButtonDisabled(value: boolean)` назначает состояние кнопки - активна/неактивна  
+`set errorMessage(message: string)` назначает содержимое блока с ошибками  
   
   
-**paymentAndDeliveryForm**  
+**FormOrder**  
 Назначение класса: форма для выбора формы оплаты и адреса доставки    
-Конструктор класса:    
+Конструктор класса: принимает в себя контейнер и брокер событий
 Поля формы:  
-cashButton: HTMLElement  
-onlineButton: HTMLElement  
+cashButton: HTMLButtonElement;  
+cardButton: HTMLButtonElement;  
+addressElement: HTMLInputElement;
+Методы класса:  
+`set payment(value: TPayment)` - назначает тип оплаты.
+`set address(value: string)` - назначает адресс
+
   
 **СontanctsForm**  
 Назначение класса: форма ввода контактных данных     
-Конструктор класса:
- 
+Конструктор класса: принимает в себя контейнер и брокер событий  
+Поля формы: 
+emailElement: HTMLInputElement;  
+phoneElement: HTMLInputElement;  
+Методы класса:
+`set email` - назначает email,введенный пользователем
+ `set phone` - назначает телефон, введенный пользователем  
+  
+ ### Описание событий   
+  
+События на странице отслеживаются с помощью слушателей событий и обрабатываются в презентере (файл main.ts). 
+Установлены слушатели на следующие события, перечисленные в файле utils/action.ts
+  PRODUCT_RECIEVED - ДАННЫЕ С СЕРВЕРА ПОДГРУЗИЛИСЬ  
+  CART_OPEN - КОРЗИНКА ОТКРЫВАЕТСЯ  
+  MODAL_CLOSE - МОДАЛЬНОЕ ОКНО ЗАКРЫВАЕТСЯ  
+  CARD_OPEN - ПРИ НАЖАТИИ НА КАРТОЧКУ, ЧТОБЫ ОТКРЫЛОСЬ ПРЕВЬЮ  
+  CART_UPDATE - В КОРЗИНЕ  
+  CARD_BUTTON_CLICKED - В ПРЕВЬЮ КАРТОЧКЕ ТОВАРА, КОГДА НАЖИМАЕШЬ НА КНОПКУ КУПИТЬ/УДАЛИТЬ ИЗ КОРЗИНЫ  
+  CART_ITEM_REMOVE - в корзине кнопка удалить у карточки  
+  MAKE_ORDER - кликнули кнопку оформить в корзине  
+  DATA_SUBMIT - ввели основные данные и продолжаем получать заказ  
+  CONFIRM_ORDER - введены контактные данные и завершили оформление заказа  
+  ORDER_COMPLETED - заказ сделан, данные покупателя и корзины обновлены, форма закрыта.  
+  PAYMENT_CHOOSEN  - выбор оплаты  
+  ADDRESS_INPUT - введение адреса  
+  EMAIL_INPUT - введение email  
+  PHONE_INPUT - введение телефона  
+  CUSTOMER_UPDATE - следим за обновлением данных пользователя  
   

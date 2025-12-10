@@ -1,4 +1,6 @@
 import { ICustomer } from "../../types/index.ts";
+import { actions } from "../../utils/actions.ts";
+import { IEvents } from "../base/Events.ts";
 
 export class Customer {
   private customerInfo: ICustomer = {
@@ -8,6 +10,9 @@ export class Customer {
     address: null,
   };
 
+  constructor(private events: IEvents) {
+    this.events = events;
+  }
   setCustomerInfo(customerInfo: Partial<ICustomer>): void {
     if (customerInfo.payment !== undefined) {
       this.customerInfo.payment = customerInfo.payment;
@@ -21,6 +26,7 @@ export class Customer {
     if (customerInfo.phone !== undefined) {
       this.customerInfo.phone = customerInfo.phone;
     }
+    this.events.emit(actions.CUSTOMER_UPDATE);
   }
 
   getCustomerInfo(): ICustomer {
@@ -30,9 +36,9 @@ export class Customer {
   eraseCustomerInfo(): void {
     this.customerInfo = {
       payment: null,
-      email: null,
-      phone: null,
-      address: null,
+      email: "",
+      phone: "",
+      address: "",
     };
   }
 

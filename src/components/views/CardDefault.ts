@@ -1,8 +1,8 @@
 import { Component } from "../base/Component";
 import { IProduct } from "../../types/index";
-import { ensureElement } from "../../utils/utils"
+import { ensureElement } from "../../utils/utils";
 
-export abstract class CardDefault extends Component<IProduct>{
+export abstract class CardDefault extends Component<IProduct> {
   protected title: HTMLElement;
   protected price: HTMLElement;
 
@@ -20,13 +20,14 @@ export abstract class CardDefault extends Component<IProduct>{
 
   set PriceValue(value: number | null) {
     if (this.price) {
-      this.price.textContent = value === null? `Бесценно` : `${value} синапсов`;
+      this.price.textContent =
+        value === null ? `Бесценно` : `${value} синапсов`;
     }
   }
 
   render(data: Partial<IProduct> | undefined): HTMLElement {
-    this.TitleValue = data?.title !;
-    this.PriceValue = data?.price !;
-    return this.container
+    this.TitleValue = data?.title!;
+    this.PriceValue = data?.price!;
+    return this.container;
   }
 }
