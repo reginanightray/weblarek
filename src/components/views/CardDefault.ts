@@ -12,22 +12,26 @@ export abstract class CardDefault extends Component<IProduct> {
     this.price = ensureElement<HTMLElement>(".card__price", this.container);
   }
 
-  set TitleValue(value: string) {
+  set titleValue(value: string) {
     if (this.title) {
       this.title.textContent = value;
     }
   }
 
-  set PriceValue(value: number | null) {
+  set priceValue(value: number | null) {
     if (this.price) {
       this.price.textContent =
         value === null ? `Бесценно` : `${value} синапсов`;
     }
   }
 
-  render(data: Partial<IProduct> | undefined): HTMLElement {
-    this.TitleValue = data?.title!;
-    this.PriceValue = data?.price!;
+  render(data: Partial<IProduct>): HTMLElement {
+    if (data.title !== undefined) {
+      this.titleValue = data.title;
+    }
+    if (data.price !== undefined) {
+      this.priceValue = data.price;
+    }
     return this.container;
   }
 }

@@ -2,7 +2,7 @@ import "./scss/styles.scss";
 import { Cart } from "./components/Models/Cart";
 import { Customer } from "./components/Models/Customer";
 import { Product } from "./components/Models/Product";
-import { ICustomer, IProduct, TPayment } from "./types";
+import { IProduct, TPayment } from "./types";
 import { ApiService } from "./components/Models/ApiService";
 import { API_URL } from "./utils/constants";
 import { Api } from "./components/base/Api";
@@ -88,6 +88,9 @@ events.on(actions.PRODUCT_RECIEVED, () => {
 //открытие корзины
 events.on(actions.CART_OPEN, () => {
   modal.open(cart.render());
+  if (cartModel.getAmountOfItems() === 0) {
+    cart.isToOrderButtonDisabled = true;
+  }
 });
 
 //подробные карточки

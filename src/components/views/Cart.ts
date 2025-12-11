@@ -21,7 +21,6 @@ export class Cart extends Component<IBasket> {
       this.container
     );
     this.cartList = ensureElement(".basket__list", this.container);
-    this.toOrderButton.disabled = true;
     this.toOrderButton.addEventListener("click", () => {
       this.events.emit(actions.MAKE_ORDER);
     });
